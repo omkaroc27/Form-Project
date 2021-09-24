@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+	crossorigin="anonymous">
+<!-- Location -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCyaw5op_Syn7JWGZzOGBtgnhs3PPoCUwI"></script>
+<script type="text/javascript">
+	var searchInput = 'search_input';
+
+	$(document)
+			.ready(
+					function() {
+						var autocomplete;
+						autocomplete = new google.maps.places.Autocomplete(
+								(document.getElementById(searchInput)), {
+									types : [ 'geocode' ],
+								});
+
+						google.maps.event
+								.addListener(
+										autocomplete,
+										'place_changed',
+										function() {
+											var near_place = autocomplete
+													.getPlace();
+											document.getElementById('loc_lat').value = near_place.geometry.location
+													.lat();
+											document.getElementById('loc_long').value = near_place.geometry.location
+													.lng();
+
+											document
+													.getElementById('latitude_view').innerHTML = near_place.geometry.location
+													.lat();
+											document
+													.getElementById('longitude_view').innerHTML = near_place.geometry.location
+													.lng();
+										});
+					});
+
+	$(document).on('change', '#' + searchInput, function() {
+		document.getElementById('latitude_input').value = '';
+		document.getElementById('longitude_input').value = '';
+
+		document.getElementById('latitude_view').innerHTML = '';
+		document.getElementById('longitude_view').innerHTML = '';
+	});
+	var autocomplete;
+	autocomplete = new google.maps.places.Autocomplete((document
+			.getElementById(searchInput)), {
+		types : [ 'geocode' ],
+		componentRestrictions : {
+			country : "INDIA"
+		}
+	});
+</script>
+</head>
+<body>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+		integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+		integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+		crossorigin="anonymous"></script>
+
+
+	<section class="vh-100">
+		<div class="container h-100">
+			<div
+				class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-xl-9">
+
+					<h1 class="text-black mb-4">Fill Form</h1>
+					<form th:action="@{/Data}" method="post" th:object="${data}">
+						<div class="card" style="border-radius: 5px;">
+
+							<div class="row align-items-center pt-4 pb-3">
+								<div class="col-md-3 ps-5">
+
+									<h6 class="mb-0">Full name</h6>
+
+								</div>
+								<div class="col-md-9 pe-5">
+
+									<input type="text" class="form-control form-control-lg"  name="fname"/>
+
+								</div>
+							</div>
+
+							<hr class="mx-n3">
+							<div class="row align-items-center pt-4 pb-3">
+								<div class="col-md-3 ps-5">
+
+									<h6 class="mb-0">Date - Time</h6>
+
+								</div>
+								<div class="col-md-9 pe-5">
+
+									<input class="form-control form-control-lg"
+										type="datetime-local" id="meeting-time" name="dtime"
+										value="2018-06-12T19:30" min="2018-06-07T00:00"
+										max="2018-06-14T00:00">
+
+								</div>
+							</div>
+
+							<hr class="mx-n3">
+							<div class="row align-items-center pt-4 pb-3">
+								<div class="col-md-3 ps-5">
+
+									<h6 class="mb-0">Gender</h6>
+
+								</div>
+								<div class="col-md-9 pe-5">
+									<select name="gender" required class="form-control form-control-lg">
+										<option value="" disabled selected>Choose Gender...</option>
+										<option>Male</option>
+										<option>Female</option>
+									</select>
+
+								</div>
+							</div>
+
+							<hr class="mx-n3">
+							<div class="row align-items-center pt-4 pb-3">
+								<div class="col-md-3 ps-5">
+
+									<h6 class="mb-0">Location:</h6>
+
+								</div>
+								<div class="col-md-9 pe-5">
+
+									<div class="form-group">
+
+										<input class="form-control form-control-lg" type="text" name="loc"
+											id="search_input" placeholder="Type address..." /> <input
+											 id="loc_lat" type="hidden"/> <input 
+											id="loc_long" type="hidden" />
+									</div>
+								</div>
+							</div>
+
+							<hr class="mx-n3">
+
+
+
+							<div class="row align-items-center py-3">
+								<div class="col-md-3 ps-5">
+
+									<h6 class="mb-0">Email address</h6>
+
+								</div>
+								<div class="col-md-9 pe-5">
+
+									<input type="email" class="form-control form-control-lg" name="email"
+										placeholder="example@example.com" />
+
+								</div>
+							</div>
+
+							<hr class="mx-n3">
+
+							<div class="row align-items-center py-3">
+								<div class="col-md-3 ps-5">
+
+									<h6 class="mb-0">Massage</h6>
+
+								</div>
+								<div class="col-md-9 pe-5">
+
+									<textarea class="form-control" rows="3"
+										placeholder="Message sent to the employer"></textarea>
+
+								</div>
+							</div>
+
+							<hr class="mx-n3">
+
+							<div class="row align-items-center py-3">
+								<div class="col-md-3 ps-5">
+
+									<h6 class="mb-0">Upload CV</h6>
+
+								</div>
+								<div class="col-md-9 pe-5">
+
+									<input class="form-control form-control-lg" id="formFileLg"
+										type="file"  name="dfile"/>
+									<div class="small text-muted mt-2">Upload your Image
+										 Max file size 5 MB</div>
+
+								</div>
+							</div>
+							
+							
+
+							<hr class="mx-n3">
+
+							<div class="px-5 py-4">
+								<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+							</div>
+					</form>
+				</div>
+			</div>
+
+		</div>
+
+
+	</section>
+</body>
+</html>
